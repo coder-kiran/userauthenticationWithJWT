@@ -38,7 +38,9 @@ export class UserSchemaClass {
   @Prop()
   readonly phoneno: number;
 
-
+  @IsDate()
+  @Prop()
+  readonly dob: Date;
 }
 
 export const UserSchema = SchemaFactory.createForClass(UserSchemaClass);
