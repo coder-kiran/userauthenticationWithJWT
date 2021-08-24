@@ -24,4 +24,6 @@ import {
   
     @Length(10)
     readonly phoneno: number;
+
+    readonly isPhoneVerified: boolean;
   }

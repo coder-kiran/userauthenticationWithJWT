@@ -21,6 +21,9 @@ export class UserSchemaClass{
     @Prop()
     phoneno: number;
 
+    @Prop()
+    isPhoneVerified: boolean;
+
     // Date
 }
 
