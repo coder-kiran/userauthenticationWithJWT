@@ -3,10 +3,10 @@ import {
   IsString,
   IsNotEmpty,
   IsEmail,
-  length,
   Length,
   Contains,
   IsDate,
+  IsDateString,
 } from 'class-validator';
 import { Document } from 'mongoose';
 
@@ -27,7 +27,7 @@ export class UserSchemaClass {
 
   @IsEmail()
   @Prop()
-  readonly email?: string;
+  readonly email: string;
 
   @Length(5, 10)
   @Contains('#' && '*' && '@')
@@ -38,7 +38,7 @@ export class UserSchemaClass {
   @Prop()
   readonly phoneno: number;
 
-  @IsDate()
+  @IsDateString()
   @Prop()
   readonly dob: Date;
 }

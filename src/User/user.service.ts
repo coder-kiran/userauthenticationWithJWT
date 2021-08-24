@@ -7,14 +7,10 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
+  
   constructor(
     @InjectModel('Usermodel') private readonly uModel: Model<UserDocument>,
   ) {}
-
-  getHello(): string {
-    return 'Hello User!';
-  }
-
 
   async signUpUser(gettingUserData): Promise<UserSchemaClass> {
     gettingUserData.password = await bcrypt.hash(gettingUserData.password,10)

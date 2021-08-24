@@ -4,7 +4,9 @@ import {
     Length,
     IsNotEmpty,
     Contains,
-    IsDate,  
+    IsDate,
+    IsMobilePhone,
+    IsDateString,  
   } from 'class-validator';
   
   export class UserDTO {
@@ -23,9 +25,9 @@ import {
     @Contains('#' && '*' && '@')
     readonly password: string;
   
-    @Length(10)    
+    @IsMobilePhone('en-IN')
     readonly phoneno: number;
 
-    @IsDate()
+    @IsDateString()
     readonly dob:  Date;
   }
