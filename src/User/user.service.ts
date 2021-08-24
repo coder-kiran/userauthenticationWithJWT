@@ -7,33 +7,38 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
-  
   constructor(
     @InjectModel('Usermodel') private readonly uModel: Model<UserDocument>,
   ) {}
 
   async signUpUser(gettingUserData): Promise<UserSchemaClass> {
-    gettingUserData.password = await bcrypt.hash(gettingUserData.password,10)
+    gettingUserData.password = await bcrypt.hash(gettingUserData.password, 10);
     const signUpDataToModel = new this.uModel(gettingUserData);
     return signUpDataToModel.save();
   }
 
+  async loginUser(gettingLoginData): Promise<string> {
+    console.log(gettingLoginData)
+    const user = await this.uModel.findOne({
+      email: `${gettingLoginData.email}`,
+    });
 
-  async  loginUser(gettingLoginData): Promise<UserDocument>{
-   const user = await this.uModel.findOne({email:`${gettingLoginData.email}`});
-    if(user){
-     console.log('<<--   MAIL ID CONFIRMED    -->>');        
-     await bcrypt.compare(gettingLoginData.password,user.password).then((status)=>{
-         if(status){
-               console.log('<<--  LOGGED IN SUCCESSFULLY   -->>');
-               console.log(` WELCOME BACK, ${user.fname} ${user.lname}`);          
-         }else{
-               console.log('<<--  ENTERED PASSWORD IS WRONG  -->>');        
-              }
-             })
-    }else{
-    console.log('<<--  NO SUCH USER   -->>');    
-  }    
-   return this.uModel.findOne({email:`${gettingLoginData.email}`},{fname:1,_id:1});    
+    if (user) {
+      console.log('<<--   MAIL ID CONFIRMED    -->>');
+      await bcrypt
+        .compare(gettingLoginData.password, user.password)
+        .then((status) => {
+          if (status) {
+            console.log('<<--  LOGGED IN SUCCESSFULLY   -->>');
+            console.log(` WELCOME , ${user.fname} ${user.lname}`);
+          } else {
+            console.log('<<--  OOPs..! ENTERED PASSWORD IS WRONG  -->>');
+          }
+        });
+    } else {
+      console.log('<<--  NO SUCH USER   -->>');
+      return 'No such user'
+    }
+  
   }
 }

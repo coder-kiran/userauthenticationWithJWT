@@ -32,19 +32,21 @@ signUpUser(@Body() gettingUserData: UserDTO): Promise<UserSchemaClass> {
 
 @Post('signupotp')  
 signUpWithOtp(@Body() body) {
-  console.log('BODY',body);
   
     if( generatedToken == body.rnum ){
     isphonenumberverified=true;
-    console.log('SUCCESS..OTP MATCHED');    
+    console.log('SUCCESS..OTP MATCHED');
+    return 'Success.Please enter your details'    
   }else{
     generatedToken = phoneToken(8, { type: 'number' });
     console.log('YOUR OTP IS: ',generatedToken);
+    return generatedToken
   }
+ 
 } 
 
   @Post('login')
-  async loginUser(@Body() gettingLoginData: UserLoginDTO): Promise<UserDocument>{   
+  async loginUser(@Body() gettingLoginData): Promise<string>{   
   return  this.userService.loginUser(gettingLoginData);   
   }
 
