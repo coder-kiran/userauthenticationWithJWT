@@ -3,7 +3,8 @@ import {
     IsString,
     Length,
     IsNotEmpty,
-    Contains,  
+    Contains,
+    IsDate,  
   } from 'class-validator';
   
   export class UserDTO {
@@ -22,8 +23,9 @@ import {
     @Contains('#' && '*' && '@')
     readonly password: string;
   
-    @Length(10)
+    @Length(10)    
     readonly phoneno: number;
 
-    readonly isPhoneVerified: boolean;
+    @IsDate()
+    readonly dob:  Date;
   }

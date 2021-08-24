@@ -37,7 +37,7 @@ export class UserController {
   }
 
   @Post('login')
-  async loginUser(@Body() gettingLoginData: UserLoginDTO): Promise<UserDocument >{
+  async loginUser(@Body() gettingLoginData: UserLoginDTO): Promise<UserDocument>{
 
    
   return  this.userService.loginUser(gettingLoginData);
