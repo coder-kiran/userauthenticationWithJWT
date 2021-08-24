@@ -1,30 +1,44 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Document } from "mongoose";
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import {
+  IsString,
+  IsNotEmpty,
+  IsEmail,
+  length,
+  Length,
+  Contains,
+  IsDate,
+} from 'class-validator';
+import { Document } from 'mongoose';
 
 export type UserDocument = UserSchemaClass & Document;
 
 @Schema()
-export class UserSchemaClass{
+export class UserSchemaClass {
 
-    @Prop()
-    fname: string;
+  @IsString()
+  @IsNotEmpty()
+  @Prop()
+  readonly fname: string;
 
-    @Prop()
-    lname: string;
+  @IsString()
+  @IsNotEmpty()
+  @Prop()
+  readonly lname: string;
 
-    @Prop()
-    email: string;
+  @IsEmail()
+  @Prop()
+  readonly email?: string;
 
-    @Prop()
-    password: string;
+  @Length(5, 10)
+  @Contains('#' && '*' && '@')
+  @Prop()
+  readonly password: string;
 
-    @Prop()
-    phoneno: number;
+  @Length(10)
+  @Prop()
+  readonly phoneno: number;
 
-    @Prop()
-    isPhoneVerified: boolean;
 
-    // Date
 }
 
-export const UserSchema =  SchemaFactory.createForClass(UserSchemaClass);
+export const UserSchema = SchemaFactory.createForClass(UserSchemaClass);

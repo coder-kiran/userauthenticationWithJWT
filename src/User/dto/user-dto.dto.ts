@@ -26,6 +26,5 @@ import {
     @Length(10)    
     readonly phoneno: number;
 
-    @IsDate()
-    readonly dob:  Date;
+   
   }

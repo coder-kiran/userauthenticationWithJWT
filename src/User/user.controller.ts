@@ -13,7 +13,9 @@ import { UserDocument } from './schemas/user-schema.schema';
 import { UserService } from './user.service';
 
 var phoneToken = require('generate-sms-verification-code');
-var generatedToken = phoneToken(8, { type: 'number' });
+var generatedToken =0;
+
+var isphonenumberverified = false;
 
 @Controller('userroute')
 export class UserController {
@@ -24,23 +26,31 @@ export class UserController {
     return this.userService.getHello();
   }
 
-  @Post('signup/:rnum')
-  signUpUser(@Body() gettingUserData: UserDTO, @Param() param) {
-    console.log('your random OTP is : ', generatedToken);
-    console.log('Otp you entered', param.rnum);
 
-    if (generatedToken == param.rnum) {
-      this.userService.signUpUser(gettingUserData);
-    } else {
-      console.log('<<--  OTP not matched   -->');
-    }
+
+@Post('signupotp/:rnum')  
+signUpWithOtp(@Param() param) {
+    if( generatedToken == param.rnum ){
+    isphonenumberverified=true;
+    console.log('SUCCESS..OTP MATCHED');    
+  }else{
+    generatedToken = phoneToken(8, { type: 'number' });
+    console.log('YOUR OTP IS: ',generatedToken);
   }
+}
+
+@Post('signup')
+signUpUser(@Body() gettingUserData: UserDTO) {
+  console.log('isphonenumberverified =>',isphonenumberverified);
+  if(isphonenumberverified){
+    this.userService.signUpUser(gettingUserData);
+  }
+}
+ 
 
   @Post('login')
-  async loginUser(@Body() gettingLoginData: UserLoginDTO): Promise<UserDocument>{
-
-   
-  return  this.userService.loginUser(gettingLoginData);
-   
+  async loginUser(@Body() gettingLoginData: UserLoginDTO): Promise<UserDocument>{   
+  return  this.userService.loginUser(gettingLoginData);   
   }
+
 }
