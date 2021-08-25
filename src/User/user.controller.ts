@@ -6,6 +6,7 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
+import { ItemService } from 'src/Items/items.services';
 import { UserLoginDTO } from './dto/login-dto.dto';
 import { UserDTO } from './dto/user-dto.dto';
 import { UserDocument, UserSchemaClass } from './schemas/user-schema.schema';
@@ -19,7 +20,7 @@ var isphonenumberverified = false;
 @Controller('userroute')
 export class UserController {
 
-constructor(private readonly userService: UserService) {}
+constructor(private readonly userService: UserService,private readonly itemService: ItemService) {}
 
 
 @Post('signup')
@@ -40,7 +41,7 @@ signUpWithOtp(@Body() body) {
   }else{
     generatedToken = phoneToken(8, { type: 'number' });
     console.log('YOUR OTP IS: ',generatedToken);
-    return generatedToken
+    return generatedToken;
   }
  
 } 
@@ -48,6 +49,11 @@ signUpWithOtp(@Body() body) {
   @Post('login')
   async loginUser(@Body() gettingLoginData): Promise<string>{   
   return  this.userService.loginUser(gettingLoginData);   
+  }
+
+  @Get('item')
+  getItem() {
+    return this.itemService.getItem()
   }
 
 }
